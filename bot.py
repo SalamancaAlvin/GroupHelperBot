@@ -20,11 +20,15 @@ def unknown(update, context):
     logging.info(f'Texto del mensaje: {update.message.text}')
 
 def main():
+    logging.info('Iniciando el bot...')
     updater = Updater(TOKEN, use_context=True)
+    logging.info('Bot iniciado correctamente')
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(MessageHandler(Filters.all, unknown))
+    logging.info('Handlers agregados correctamente')
     updater.start_webhook(listen="0.0.0.0", port=443, url_path='webhook', webhook_url=URL + '/webhook')
+    logging.info('Webhook iniciado correctamente')
     updater.idle()
 
 if __name__ == '__main__':
