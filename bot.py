@@ -94,4 +94,26 @@ async def anti_flood(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(LOG_CHAT_ID, f"Spam detectado de {user_id}")
         user_message_times[user_id].clear()
 
-async def anti_promo
+async def anti_promo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text.lower()
+    if re.search(r"(https?://|t\.me/|telegram\.me/|@)", text):
+        await update.message.delete()
+        await context.bot.send_message(
+            LOG_CHAT_ID,
+            f"Mensaje promocional eliminado de {update.effective_user.mention_html()}",
+            parse_mode='HTML'
+        )
+
+async def track_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    status = update.my_chat_member.new_chat_member.status
+    if status == ChatMember.MEMBER:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="¡Gracias por agregarme!")
+
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("warn", warn))
+    app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, greet))
+    app.add_handler(ChatMemberHandler(track_bot, ChatMemberHandler.MY_CHAT_MEMBER))
+    app.add_handler(MessageHandler
