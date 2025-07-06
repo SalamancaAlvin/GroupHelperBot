@@ -7,7 +7,13 @@ TOKEN = '8079599334:AAE2-azAjR-_tSV9HirqMb2_tjhEpI9HSOU'
 URL = 'https://grouphelperbot.onrender.com'
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text='¡Hola! Soy CrimsonMeguBot')
+    logging.info('Comando /start recibido')
+    logging.info(f'Chat ID: {update.effective_chat.id}')
+    try:
+        context.bot.send_message(chat_id=update.effective_chat.id, text='¡Hola! Soy CrimsonMeguBot')
+        logging.info('Mensaje enviado correctamente')
+    except Exception as e:
+        logging.error(f'Error al enviar mensaje: {e}')
 
 def main():
     updater = Updater(TOKEN, use_context=True)
