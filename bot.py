@@ -39,17 +39,17 @@ async def warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.reply_to_message.from_user.id
     chat_id = update.effective_chat.id
     key = f"{chat_id}:{user_id}"
-user_warnings[key] = user_warnings.get(key, 0) + 1
+    user_warnings[key] = user_warnings.get(key, 0) + 1
     warnings = user_warnings[key]
-    await update.message.reply_text(f"⚠️ Advertencia {warnings}/{MAX_WARNINGS}")
 
-    await context.bot.send_message(LOG_CHAT_ID, f"⚠️ Usuario {user_id} advertido ({warnings}/{MAX_WARNINGS}) en {chat_id}")
+    await update.message.reply_text(f"⚠️ Advertencia {warnings}/{MAX_WARNINGS}")
+    await context.bot.send_message(LOG_CHAT_ID, f"Usuario {user_id} advertido ({warnings}/{MAX_WARNINGS}) en {chat_id}")
 
     if warnings >= MAX_WARNINGS:
         try:
             await context.bot.ban_chat_member(chat_id, user_id)
-            await update.message.reply_text("🚫 Usuario expulsado por acumular advertencias.")
-            await context.bot.send_message(LOG_CHAT_ID, f"🚫 Usuario {user_id} baneado por advertencias.")
+            await update.message.reply_text("Usuario expulsado por acumular advertencias.")
+            await context.bot.send_message(LOG_CHAT_ID, f"Usuario {user_id} baneado por advertencias.")
             user_warnings[key] = 0
         except Exception as e:
             await update.message.reply_text(f"No se pudo expulsar al usuario: {e}")
