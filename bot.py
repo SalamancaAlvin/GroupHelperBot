@@ -38,7 +38,8 @@ async def warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = update.message.reply_to_message.from_user.id
     chat_id = update.effective_chat.id
-    key = f"{chat_id}:{user_id}"user_warnings[key] = user_warnings.get(key, 0) + 1
+    key = f"{chat_id}:{user_id}"
+user_warnings[key] = user_warnings.get(key, 0) + 1
     warnings = user_warnings[key]
     await update.message.reply_text(f"⚠️ Advertencia {warnings}/{MAX_WARNINGS}")
 
