@@ -1,6 +1,5 @@
 
-
-```python
+python
 from telegram import Update, ChatMember
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ChatMemberHandler
 from collections import defaultdict
@@ -108,5 +107,6 @@ if _name_ == "_main_":
     app.add_handler(ChatMemberHandler(track_bot, ChatMemberHandler.MY_CHAT_MEMBER))
 
     app.run_polling()
-```
 
+
+)
