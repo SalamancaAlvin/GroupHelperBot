@@ -9,12 +9,12 @@ import re
 TOKEN = "8079599334:AAE2-azAjR-_tSV9HirqMb2_tjhEpI9HSOU"
 LOG_CHAT_ID = --1002812429283  #
 
---- Almacenamiento en memoria ---
+
 user_warnings = {}
 bad_words = {"spam", "estafa", "porno"}
 user_message_times = defaultdict(list)
 
---- Configuraciones ---
+
 MAX_WARNINGS = 3
 SPAM_THRESHOLD = 5
 SPAM_INTERVAL = 10
@@ -27,7 +27,7 @@ RULES_TEXT = """
 4. Nada de enlaces promocionales.
 """
 
---- Comandos ---
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Bot activado y funcionando.")
 
@@ -53,19 +53,19 @@ async def warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             await update.message.reply_text(f"No se pudo expulsar al usuario: {e}")
 
---- Bienvenida + Reglas ---
+
 async def greet(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for member in update.message.new_chat_members:
         await update.message.reply_text(f"¡Bienvenido/a {member.mention_html()}!", parse_mode='HTML')
         await update.message.reply_text(RULES_TEXT, parse_mode='Markdown')
 
---- Filtro de palabras prohibidas ---
+
 async def filter_bad_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.lower()
     if any(word in text for word in bad_words):await update.message.delete()
         await context.bot.send_message(LOG_CHAT_ID, f"🗑️ Mensaje eliminado por palabra prohibida:update.message.text")
 
---- Anti-flood ---
+
 async def anti_flood(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     now = time.time()
@@ -79,19 +79,19 @@ async def anti_flood(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(LOG_CHAT_ID, f"⚠️ Spam detectado de {user_id}")
         user_message_times[user_id].clear()
 
---- Anti-promoción (links, @) ---
+
 async def anti_promo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.lower()
     if re.search(r"(https?://|t\.me/|telegram\.me/|@)", text):
         await update.message.delete()
         await context.bot.send_message(LOG_CHAT_ID, f"❌ Mensaje promocional eliminado de {update.effective_user.mention_html()}", parse_mode='HTML')
 
---- Detectar si el bot fue agregado ---async def track_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def track_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     status = update.my_chat_member.new_chat_member.status
     if status == ChatMember.MEMBER:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="✅ ¡Gracias por agregarme!")
 
---- Main ---
+
 if _name_ == "_main_":
     app = ApplicationBuilder().token(TOKEN).build()
 
@@ -107,4 +107,6 @@ if _name_ == "_main_":
     app.add_handler(ChatMemberHandler(track_bot, ChatMemberHandler.MY_CHAT_MEMBER))
 
     app.run_polling()
-    
+
+
+
