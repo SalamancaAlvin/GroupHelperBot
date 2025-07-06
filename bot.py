@@ -109,10 +109,13 @@ async def track_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if status == ChatMember.MEMBER:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="¡Gracias por agregarme!")
 
+async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await filter_bad_words(update, context)
+    await anti_flood(update, context)
+    await anti_promo(update, context)
+
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("warn", warn))
-    app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, greet))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND
