@@ -107,6 +107,4 @@ if _name_ == "_main_":
     app.add_handler(ChatMemberHandler(track_bot, ChatMemberHandler.MY_CHAT_MEMBER))
 
     app.run_polling()
-
-
-)
+    
