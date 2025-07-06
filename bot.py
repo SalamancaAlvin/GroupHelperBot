@@ -4,7 +4,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler
 logging.basicConfig(level=logging.INFO)
 
 TOKEN = '8079599334:AAE2-azAjR-_tSV9HirqMb2_tjhEpI9HSOU'
-URL = 'https://grouphelperbot.onrender.com/webhook'
+URL = 'https://grouphelperbot.onrender.com'
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text='¡Hola! Soy CrimsonMeguBot')
@@ -13,7 +13,7 @@ def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('start', start))
-    updater.start_webhook(listen="0.0.0.0", port=443, url_path=TOKEN, webhook_url=URL + '/' + TOKEN)
+    updater.start_webhook(listen="0.0.0.0", port=443, url_path='webhook', webhook_url=URL + '/webhook')
     updater.idle()
 
 if __name__ == '__main__':
