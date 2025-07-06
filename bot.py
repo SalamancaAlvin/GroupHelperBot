@@ -115,4 +115,4 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("warn", warn))
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, greet))
-    app.add_handler(ChatMemberHandler(track_bot, ChatMember
+    app.add
