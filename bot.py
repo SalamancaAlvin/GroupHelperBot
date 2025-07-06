@@ -44,7 +44,7 @@ async def warn(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_warnings[key] = user_warnings.get(key, 0) + 1
     warnings = user_warnings[key]
 
-    await update.message.reply_text(f"⚠️ Advertencia {warnings}/{MAX_WARNINGS}")
+    await update.message.reply_text(f"Advertencia {warnings}/{MAX_WARNINGS}")
     await context.bot.send_message(
         LOG_CHAT_ID,
         f"Usuario {user_id} advertido ({warnings}/{MAX_WARNINGS}) en {chat_id}"
@@ -110,7 +110,8 @@ async def track_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=update.effective_chat.id, text="¡Gracias por agregarme!")
 
 if __name__ == "__main__":
-    app = ApplicationBuilder().split(", ")
+    app = ApplicationBuilder().token(TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("warn", warn))
-    app.add_handler(MessageHandler
+    app.add_handler(MessageHandler(filters.StatusUpdate.N
