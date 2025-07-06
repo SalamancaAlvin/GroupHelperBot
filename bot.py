@@ -1,5 +1,5 @@
 import logging
-from telegram.ext import Updater, CommandHandler, MessageHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,10 +15,15 @@ def start(update, context):
     except Exception as e:
         logging.error(f'Error al enviar mensaje: {e}')
 
+def unknown(update, context):
+    logging.info('Mensaje recibido')
+    logging.info(f'Texto del mensaje: {update.message.text}')
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('start', start))
+    dp.add_handler(MessageHandler(Filters.all, unknown))
     updater.start_webhook(listen="0.0.0.0", port=443, url_path='webhook', webhook_url=URL + '/webhook')
     updater.idle()
 
